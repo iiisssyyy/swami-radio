@@ -154,22 +154,42 @@
   </footer>
 
   <!-- Linkify URLs -->
-  <script>
-    function linkifyText(element) {
-      const urlPattern = /(https?:\/\/[^\s]+)/g;
-      element.innerHTML = element.innerHTML.replace(urlPattern, function(url) {
+<script>
+function linkifyNode(node) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  if (node.nodeType === Node.TEXT_NODE) {
+    const text = node.nodeValue;
+    if (urlRegex.test(text)) {
+      const span = document.createElement('span');
+      span.innerHTML = text.replace(urlRegex, function(url) {
         return '<a href="' + url + '" target="_blank" style="color:#0066cc;text-decoration:underline;">' + url + '</a>';
       });
+      node.replaceWith(span);
     }
+  } else {
+    node.childNodes.forEach(linkifyNode);
+  }
+}
 
-    function applyLinkify() {
-      const items = document.querySelectorAll('.orbILi > a, .orbILi > span');
-      items.forEach(el => linkifyText(el));
-    }
+function applyLinkify() {
+  const items = document.querySelectorAll('.orbILi > a, .orbILi > span');
 
-    setTimeout(applyLinkify, 1500);
-    setInterval(applyLinkify, 5000);
-  </script>
+  items.forEach(el => {
+    // Avoid re-processing
+    if (el.dataset.linkified) return;
+    linkifyNode(el);
+    el.dataset.linkified = "true";
+  });
+}
+
+/* Run after widget loads */
+setTimeout(applyLinkify, 1500);
+
+/* Watch for updates (better than interval spam) */
+const observer = new MutationObserver(() => applyLinkify());
+observer.observe(document.body, { childList: true, subtree: true });
+</script>
 
 </body>
 </html>
