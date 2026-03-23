@@ -15,7 +15,6 @@
       flex-direction: column;
       min-height: 100vh;
       align-items: center;
-      justify-content: flex-start;
     }
 
     /* Faint background logo */
@@ -23,8 +22,8 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: url("https://bhaktisf.com/fav/favicon.svg") center/300px no-repeat;
-      opacity: 0.06;
+      background: url("https://bhaktisf.com/fav/favicon.svg") center/320px no-repeat;
+      opacity: 0.05;
       z-index: 0;
       pointer-events: none;
     }
@@ -37,8 +36,15 @@
 
     .widget-container {
       width: 100%;
-      max-width: 420px;
+      max-width: 900px;
+      padding: 0 20px;
       z-index: 1;
+    }
+
+    @media (min-width: 768px) {
+      .widget-container {
+        max-width: 1000px;
+      }
     }
 
     footer {
@@ -50,7 +56,7 @@
 
     footer a {
       margin: 0 10px;
-      color: #C71227;
+      color: #444;
       text-decoration: none;
     }
 
@@ -68,44 +74,89 @@
 
     <!--OnlineRadioBox Playlist widget-->
     <div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
-      <style>
-        .orbL{position:relative;box-sizing:border-box;overflow:hidden;font-weight:normal;border:1px solid;text-align:left}
-        .orbL br,.orbL>br{display:none!important;}
-        .orbL p,.orbL>p{margin:0!important;padding:0!important;line-height:normal!important;font-size:inherit!important}
-        .orbLh{display:block;position:absolute;z-index:100;top:22px;right:10px;margin-top:-12px;width:21px;text-decoration:none!important;cursor:pointer}
-        .orbLh>img{height:24px!important}
-        .orbLt{display:block;box-sizing:border-box;overflow:hidden;padding-left:10px!important;line-height:44px!important;min-height:44px;text-decoration:none!important}
-        .orbLti{float:left!important;margin:10px 10px 10px 0!important;height:24px!important;width:44px!important}
-        .orbLtn{display:block;margin-right:54px!important;font-size:14px!important;font-weight:bold}
-        .orbIL{overflow-y:auto;margin:0!important;padding:0!important;list-style:none!important;height:172px}
-        .orbILi{padding:0 10px!important;list-style:none!important}
-        .orbILi>a,.orbILi>span{
-          display:block!important;
-          font-size:14px!important;
-          text-decoration:none!important;
 
-          /* FIX: allow wrapping */
+      <style>
+        /* Base cleanup */
+        .orbL {
+          position: relative;
+          box-sizing: border-box;
+          overflow: hidden;
+          border: none !important;
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+
+        .orbLt {
+          display: block;
+          padding-left: 10px !important;
+          line-height: 44px !important;
+          min-height: 44px;
+          text-decoration: none !important;
+          background: transparent !important; /* remove red bar */
+        }
+
+        .orbLti {
+          float: left !important;
+          margin: 10px 10px 10px 0 !important;
+          height: 24px !important;
+          width: 44px !important;
+        }
+
+        .orbLtn {
+          display: block;
+          margin-right: 54px !important;
+          font-size: 14px !important;
+          font-weight: bold;
+          color: #222 !important;
+        }
+
+        .orbIL {
+          overflow-y: auto;
+          margin: 0 !important;
+          padding: 0 !important;
+          list-style: none !important;
+          height: 200px;
+          background: transparent !important;
+        }
+
+        .orbILi {
+          padding: 6px 10px !important;
+          list-style: none !important;
+        }
+
+        /* FIX: wrapping instead of truncation */
+        .orbILi > a,
+        .orbILi > span {
+          display: block !important;
+          text-decoration: none !important;
+          font-size: 14px !important;
           white-space: normal !important;
           overflow: visible !important;
           text-overflow: unset !important;
-          line-height: 1.4 !important;
+          line-height: 1.5 !important;
+          color: #222 !important;
         }
-        .orbILi>a>time,.orbILi>span>time{
-          display:inline-block;
-          width:3em;
-          font-size:12px!important;
+
+        .orbILi > a > time,
+        .orbILi > span > time {
+          display: inline-block;
+          width: 3em;
+          font-size: 12px !important;
           vertical-align: top;
           margin-right: 6px;
+          color: #888 !important;
         }
 
-        .cmpct .orbILi>a,.cmpct .orbILi>span{
-          font-size:12px!important;
+        /* subtle separators */
+        .orbILi + li {
+          border-top: 1px solid rgba(0,0,0,0.08) !important;
         }
 
-        /* Colors */
-        .orbL{border-color:#C71227;border-radius:5px;background:#fff}
-        .orbLt{background-color:#C71227}
-        .orbLtn{color:#fff}
+        /* compact tweak */
+        .cmpct .orbILi > a,
+        .cmpct .orbILi > span {
+          font-size: 13px !important;
+        }
       </style>
 
       <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
@@ -123,6 +174,7 @@
         orbpl_w.cmd.push(function() {
           orbpl_w.init("orb_pl_a5ed1a5e0769a99");
         });
+
         var s = document.createElement('script');
         s.src = "//ecdn.onlineradiobox.com/js/plwidget.min.a1649ec0.js";
         document.body.appendChild(s);
