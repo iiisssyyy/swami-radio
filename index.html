@@ -166,8 +166,8 @@ function linkifyElement(el) {
     false
   );
 
-  const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#]*)*)/g;
-
+const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#%]*)*)/g;
+  
   let node;
   while ((node = walker.nextNode())) {
     const text = node.nodeValue;
