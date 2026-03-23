@@ -1,6 +1,6 @@
 name: Deploy to Cloudflare Pages
 
-# Trigger only on pushes to the main branch
+# Trigger only on pushes to main branch
 on:
   push:
     branches:
@@ -10,9 +10,12 @@ jobs:
   deploy:
     name: Deploy to Cloudflare
     runs-on: ubuntu-latest
+    env:
+      # Force Node.js 24 for all JavaScript actions
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-      # Step 1: Checkout the repository
+      # Step 1: Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
