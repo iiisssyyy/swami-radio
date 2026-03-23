@@ -156,25 +156,40 @@
 
   <!-- Linkify URLs -->
 <script>
-function linkifyTextNode(node) {
-  if (node.nodeType !== Node.TEXT_NODE) return;
-
-  const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.]*)*)/g;
-  const text = node.nodeValue;
-  if (urlRegex.test(text)) {
-    const span = document.createElement('span');
-    span.innerHTML = text.replace(urlRegex, url => {
-      let href = url.startsWith('http') ? url : 'https://' + url;
-      return `<a href="${href}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`;
-    });
-    node.replaceWith(span);
-  }
-}
-
 function linkifyElement(el) {
   if (!el) return;
-  el.querySelectorAll('*').forEach(child => linkifyTextNode(child));
-  linkifyTextNode(el);
+
+  const walker = document.createTreeWalker(
+    el,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+
+  const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#]*)*)/g;
+
+  let node;
+  while ((node = walker.nextNode())) {
+    const text = node.nodeValue;
+
+    if (urlRegex.test(text)) {
+      const span = document.createElement('span');
+
+      span.innerHTML = text.replace(urlRegex, url => {
+        let href = url.startsWith('http') ? url : 'https://' + url;
+
+        // Special handling for y2u.be → YouTube
+        if (url.startsWith('y2u.be/')) {
+          const id = url.split('/')[1].replace(/[^a-zA-Z0-9_-]/g, '');
+          href = `https://youtu.be/${id}`;
+        }
+
+        return `<a href="${href}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`;
+      });
+
+      node.parentNode.replaceChild(span, node);
+    }
+  }
 }
 
 function setupLinkify() {
@@ -182,9 +197,10 @@ function setupLinkify() {
   if (!listContainer) return;
 
   // Process existing items
-  listContainer.querySelectorAll('.orbILi > a, .orbILi > span').forEach(linkifyElement);
+  listContainer.querySelectorAll('.orbILi > span, .orbILi > a')
+    .forEach(linkifyElement);
 
-  // Observe future changes in the list
+  // Watch for updates
   const observer = new MutationObserver(mutations => {
     mutations.forEach(m => {
       m.addedNodes.forEach(node => {
@@ -194,12 +210,14 @@ function setupLinkify() {
       });
     });
   });
+
   observer.observe(listContainer, { childList: true, subtree: true });
 }
 
-// Wait until the widget is loaded
+// Wait for widget
 const checkWidgetReady = setInterval(() => {
-  if (document.querySelector('.orbIL')) {
+  const el = document.querySelector('.orbIL');
+  if (el && el.children.length > 0) {
     clearInterval(checkWidgetReady);
     setupLinkify();
   }
