@@ -156,40 +156,53 @@
 
   <!-- Linkify URLs -->
 <script>
-function linkifyNode(node) {
+function linkifyTextNode(node) {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
+  if (node.nodeType !== Node.TEXT_NODE) return;
 
-  if (node.nodeType === Node.TEXT_NODE) {
-    const text = node.nodeValue;
-    if (urlRegex.test(text)) {
-      const span = document.createElement('span');
-      span.innerHTML = text.replace(urlRegex, function(url) {
-        return '<a href="' + url + '" target="_blank" style="color:#0066cc;text-decoration:underline;">' + url + '</a>';
-      });
-      node.replaceWith(span);
-    }
-  } else {
-    node.childNodes.forEach(linkifyNode);
+  const text = node.nodeValue;
+  if (urlRegex.test(text)) {
+    const span = document.createElement('span');
+    span.innerHTML = text.replace(urlRegex, url => 
+      `<a href="${url}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`
+    );
+    node.replaceWith(span);
   }
 }
 
-function applyLinkify() {
-  const items = document.querySelectorAll('.orbILi > a, .orbILi > span');
-
-  items.forEach(el => {
-    // Avoid re-processing
-    if (el.dataset.linkified) return;
-    linkifyNode(el);
-    el.dataset.linkified = "true";
-  });
+function linkifyElement(el) {
+  if (!el) return;
+  el.querySelectorAll('*').forEach(child => linkifyTextNode(child));
+  linkifyTextNode(el); // also process the root node if it's text
 }
 
-/* Run after widget loads */
-setTimeout(applyLinkify, 1500);
+function setupLinkify() {
+  const listContainer = document.querySelector('.orbIL');
+  if (!listContainer) return;
 
-/* Watch for updates (better than interval spam) */
-const observer = new MutationObserver(() => applyLinkify());
-observer.observe(document.body, { childList: true, subtree: true });
+  // Process existing items
+  listContainer.querySelectorAll('.orbILi > a, .orbILi > span').forEach(linkifyElement);
+
+  // Observe future changes in the list
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(m => {
+      m.addedNodes.forEach(node => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          linkifyElement(node);
+        }
+      });
+    });
+  });
+  observer.observe(listContainer, { childList: true, subtree: true });
+}
+
+// Wait until the widget is loaded (ORB script initializes asynchronously)
+const checkWidgetReady = setInterval(() => {
+  if (document.querySelector('.orbIL')) {
+    clearInterval(checkWidgetReady);
+    setupLinkify();
+  }
+}, 500);
 </script>
 
 </body>
