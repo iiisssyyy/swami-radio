@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bhakti Radio Stream</title>
 
-  
   <style>
     body {
       margin: 0;
@@ -70,7 +69,7 @@
       display: none !important;
     }
 
-    /* Remove red border/background ONLY */
+    /* Remove red border/background only */
     .orbL {
       border: none !important;
       background: transparent !important;
@@ -89,7 +88,7 @@
       background: transparent !important;
     }
 
-    /* ✅ ONLY fix truncation (don’t touch layout!) */
+    /* Allow wrapping in track titles */
     .orbILi > a,
     .orbILi > span {
       white-space: normal !important;
@@ -104,10 +103,10 @@
 
   <div class="widget-container">
 
-    <!--OnlineRadioBox Playlist widget-->
+    <!-- OnlineRadioBox Playlist widget -->
     <div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
 
-      <!-- KEEP original widget styles intact -->
+      <!-- Keep original widget CSS mostly intact -->
       <style>
         .orbL{position:relative;box-sizing:border-box;overflow:hidden;font-weight:normal;border:1px solid;text-align:left}
         .orbL br,.orbL>br{display:none!important;}
@@ -124,9 +123,10 @@
         .orbILi+li{border-style:solid!important;border-width:1px 0 0!important}
       </style>
 
-      <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
+      <!-- Remove ORB logo -->
+      <!-- <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
         <img src="//ecdn.onlineradiobox.com/img/wl.svg" alt="">
-      </a>
+      </a> -->
 
       <a class="orbLt" href="https://onlineradiobox.com/us/bhagavatamreader/" target="_blank">
         <img class="orbLti" src="//cdn.onlineradiobox.com/img/logo/0/119920.png" alt="">
@@ -145,7 +145,7 @@
         document.body.appendChild(s);
       </script>
     </div>
-    <!--OnlineRadioBox Playlist widget-->
+    <!-- /OnlineRadioBox Playlist widget -->
 
   </div>
 
@@ -154,43 +154,37 @@
     <a href="https://krishna.com" target="_blank">krishna.com</a>
   </footer>
 
-  <!-- Linkify URLs -->
-<script>
-function linkifyNode(node) {
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-
-  if (node.nodeType === Node.TEXT_NODE) {
-    const text = node.nodeValue;
-    if (urlRegex.test(text)) {
-      const span = document.createElement('span');
-      span.innerHTML = text.replace(urlRegex, function(url) {
-        return '<a href="' + url + '" target="_blank" style="color:#0066cc;text-decoration:underline;">' + url + '</a>';
-      });
-      node.replaceWith(span);
+  <!-- Safe linkify URLs -->
+  <script>
+    function linkifyNode(node) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      if(node.nodeType === Node.TEXT_NODE) {
+        const text = node.nodeValue;
+        if(urlRegex.test(text)) {
+          const span = document.createElement('span');
+          span.innerHTML = text.replace(urlRegex, function(url) {
+            return '<a href="' + url + '" target="_blank" style="color:#0066cc;text-decoration:underline;">' + url + '</a>';
+          });
+          node.replaceWith(span);
+        }
+      } else {
+        node.childNodes.forEach(linkifyNode);
+      }
     }
-  } else {
-    node.childNodes.forEach(linkifyNode);
-  }
-}
 
-function applyLinkify() {
-  const items = document.querySelectorAll('.orbILi > a, .orbILi > span');
+    function applyLinkify() {
+      const items = document.querySelectorAll('.orbILi > a, .orbILi > span');
+      items.forEach(el => {
+        if(el.dataset.linkified) return;
+        linkifyNode(el);
+        el.dataset.linkified = "true";
+      });
+    }
 
-  items.forEach(el => {
-    // Avoid re-processing
-    if (el.dataset.linkified) return;
-    linkifyNode(el);
-    el.dataset.linkified = "true";
-  });
-}
-
-/* Run after widget loads */
-setTimeout(applyLinkify, 1500);
-
-/* Watch for updates (better than interval spam) */
-const observer = new MutationObserver(() => applyLinkify());
-observer.observe(document.body, { childList: true, subtree: true });
-</script>
+    setTimeout(applyLinkify, 1500);
+    const observer = new MutationObserver(() => applyLinkify());
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
 
 </body>
 </html>
