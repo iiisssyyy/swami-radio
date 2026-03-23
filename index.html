@@ -64,9 +64,35 @@
       text-decoration: underline;
     }
 
-    /* Hide OnlineRadioBox logo button if injected */
+    /* Hide ORB logo button */
     .orbLh {
       display: none !important;
+    }
+
+    /* Remove red border/background ONLY */
+    .orbL {
+      border: none !important;
+      background: transparent !important;
+    }
+
+    .orbLt {
+      background: transparent !important;
+    }
+
+    .orbLtn {
+      color: #222 !important;
+    }
+
+    .orbIL,
+    .orbILs {
+      background: transparent !important;
+    }
+
+    /* ✅ ONLY fix truncation (don’t touch layout!) */
+    .orbILi > a,
+    .orbILi > span {
+      white-space: normal !important;
+      text-overflow: unset !important;
     }
   </style>
 </head>
@@ -80,55 +106,26 @@
     <!--OnlineRadioBox Playlist widget-->
     <div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
 
+      <!-- KEEP original widget styles intact -->
       <style>
-        .orbL {
-          border: none !important;
-          background: transparent !important;
-        }
-
-        .orbLt {
-          background: transparent !important;
-        }
-
-        .orbLtn {
-          color: #222 !important;
-        }
-
-        .orbIL {
-          height: 200px;
-          background: transparent !important;
-          overflow-y: auto;
-        }
-
-        .orbILi {
-          padding: 6px 10px !important;
-        }
-
-        /* Allow wrapping */
-        .orbILi > a,
-        .orbILi > span {
-          white-space: normal !important;
-          overflow: visible !important;
-          text-overflow: unset !important;
-          line-height: 1.5 !important;
-          color: #222 !important;
-          text-decoration: none !important;
-        }
-
-        .orbILi > a > time,
-        .orbILi > span > time {
-          width: 3em;
-          display: inline-block;
-          font-size: 12px !important;
-          color: #888 !important;
-          margin-right: 6px;
-          vertical-align: top;
-        }
-
-        .orbILi + li {
-          border-top: 1px solid rgba(0,0,0,0.08) !important;
-        }
+        .orbL{position:relative;box-sizing:border-box;overflow:hidden;font-weight:normal;border:1px solid;text-align:left}
+        .orbL br,.orbL>br{display:none!important;}
+        .orbL p,.orbL>p{margin:0!important;padding:0!important;line-height:normal!important;font-size:inherit!important}
+        .orbLh{display:block;position:absolute;z-index:100;top:22px;right:10px;margin-top:-12px;width:21px;text-decoration:none!important;cursor:pointer}
+        .orbLh>img{height:24px!important}
+        .orbLt{display:block;box-sizing:border-box;overflow:hidden;padding-left:10px!important;line-height:44px!important;min-height:44px;text-decoration:none!important}
+        .orbLti{float:left!important;margin:10px 10px 10px 0!important;height:24px!important;width:44px!important}
+        .orbLtn{display:block;margin-right:54px!important;font-size:14px!important;font-weight:bold;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+        .orbIL{position:relative;overflow:auto;margin:0!important;padding:0!important;list-style:none!important;height:172px}
+        .orbILi{padding:0 10px!important;list-style:none!important}
+        .orbILi>a,.orbILi>span{display:block!important;line-height:32px!important;font-size:14px!important;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+        .orbILi>a>time,.orbILi>span>time{display:inline-block;font-size:12px!important;width:3em}
+        .orbILi+li{border-style:solid!important;border-width:1px 0 0!important}
       </style>
+
+      <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
+        <img src="//ecdn.onlineradiobox.com/img/wl.svg" alt="">
+      </a>
 
       <a class="orbLt" href="https://onlineradiobox.com/us/bhagavatamreader/" target="_blank">
         <img class="orbLti" src="//cdn.onlineradiobox.com/img/logo/0/119920.png" alt="">
@@ -156,7 +153,7 @@
     <a href="https://krishna.com" target="_blank">krishna.com</a>
   </footer>
 
-  <!-- Linkify URLs in track titles -->
+  <!-- Linkify URLs -->
   <script>
     function linkifyText(element) {
       const urlPattern = /(https?:\/\/[^\s]+)/g;
