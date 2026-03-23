@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bhakti Radio Stream</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    /* Faint background logo */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url("https://bhaktisf.com/fav/favicon.svg") center/300px no-repeat;
+      opacity: 0.06;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    h1 {
+      margin: 30px 0 20px;
+      font-weight: 600;
+      z-index: 1;
+    }
+
+    .widget-container {
+      width: 100%;
+      max-width: 420px;
+      z-index: 1;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 14px;
+      z-index: 1;
+    }
+
+    footer a {
+      margin: 0 10px;
+      color: #C71227;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Bhakti Radio Stream</h1>
+
+  <div class="widget-container">
+
+    <!--OnlineRadioBox Playlist widget-->
+    <div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
+      <style>
+        .orbL{position:relative;box-sizing:border-box;overflow:hidden;font-weight:normal;border:1px solid;text-align:left}
+        .orbL br,.orbL>br{display:none!important;}
+        .orbL p,.orbL>p{margin:0!important;padding:0!important;line-height:normal!important;font-size:inherit!important}
+        .orbLh{display:block;position:absolute;z-index:100;top:22px;right:10px;margin-top:-12px;width:21px;text-decoration:none!important;cursor:pointer}
+        .orbLh>img{height:24px!important}
+        .orbLt{display:block;box-sizing:border-box;overflow:hidden;padding-left:10px!important;line-height:44px!important;min-height:44px;text-decoration:none!important}
+        .orbLti{float:left!important;margin:10px 10px 10px 0!important;height:24px!important;width:44px!important}
+        .orbLtn{display:block;margin-right:54px!important;font-size:14px!important;font-weight:bold}
+        .orbIL{overflow-y:auto;margin:0!important;padding:0!important;list-style:none!important;height:172px}
+        .orbILi{padding:0 10px!important;list-style:none!important}
+        .orbILi>a,.orbILi>span{
+          display:block!important;
+          font-size:14px!important;
+          text-decoration:none!important;
+
+          /* FIX: allow wrapping */
+          white-space: normal !important;
+          overflow: visible !important;
+          text-overflow: unset !important;
+          line-height: 1.4 !important;
+        }
+        .orbILi>a>time,.orbILi>span>time{
+          display:inline-block;
+          width:3em;
+          font-size:12px!important;
+          vertical-align: top;
+          margin-right: 6px;
+        }
+
+        .cmpct .orbILi>a,.cmpct .orbILi>span{
+          font-size:12px!important;
+        }
+
+        /* Colors */
+        .orbL{border-color:#C71227;border-radius:5px;background:#fff}
+        .orbLt{background-color:#C71227}
+        .orbLtn{color:#fff}
+      </style>
+
+      <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
+        <img src="//ecdn.onlineradiobox.com/img/wl.svg" alt="">
+      </a>
+
+      <a class="orbLt" href="https://onlineradiobox.com/us/bhagavatamreader/" target="_blank">
+        <img class="orbLti" src="//cdn.onlineradiobox.com/img/logo/0/119920.png" alt="">
+        <span class="orbLtn">Bhagavatam Reader</span>
+      </a>
+
+      <script>
+        var orbpl_w = orbpl_w || { lang: "en-us" };
+        orbpl_w.cmd = orbpl_w.cmd || [];
+        orbpl_w.cmd.push(function() {
+          orbpl_w.init("orb_pl_a5ed1a5e0769a99");
+        });
+        var s = document.createElement('script');
+        s.src = "//ecdn.onlineradiobox.com/js/plwidget.min.a1649ec0.js";
+        document.body.appendChild(s);
+      </script>
+    </div>
+    <!--OnlineRadioBox Playlist widget-->
+
+  </div>
+
+  <footer>
+    <a href="https://bhaktisf.com" target="_blank">bhaktisf.com</a> |
+    <a href="https://krishna.com" target="_blank">krishna.com</a>
+  </footer>
+
+</body>
+</html>
