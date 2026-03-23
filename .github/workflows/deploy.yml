@@ -1,30 +1,13 @@
-name: Deploy to Cloudflare Pages
+name: Empty workflow to satisfy GitHub
 
-# Trigger only on pushes to main branch
 on:
   push:
     branches:
       - main
 
 jobs:
-  deploy:
-    name: Deploy to Cloudflare
+  noop:
     runs-on: ubuntu-latest
-    env:
-      # Force Node.js 24 for all JavaScript actions
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
     steps:
-      # Step 1: Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # Step 2: Deploy to Cloudflare Pages
-      - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          projectName: bhakti-radio
-          directory: .
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
