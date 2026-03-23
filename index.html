@@ -184,7 +184,7 @@ function linkifyElement(el) {
     false
   );
 
-const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#%]*)*)/g;
+  const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#%]*)*)/g;
   
   let node;
   while ((node = walker.nextNode())) {
@@ -193,6 +193,7 @@ const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#
     if (urlRegex.test(text)) {
       const span = document.createElement('span');
 
+      // ✅ Fix #1: Render directly, don't clear parent
       span.innerHTML = text.replace(urlRegex, url => {
         let href = url.startsWith('http') ? url : 'https://' + url;
 
@@ -205,6 +206,7 @@ const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#
         return `<a href="${href}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`;
       });
 
+      // ✅ Only replace this text node, don't touch siblings
       node.parentNode.replaceChild(span, node);
     }
   }
@@ -218,7 +220,7 @@ function setupLinkify() {
   listContainer.querySelectorAll('.orbILi > span, .orbILi > a')
     .forEach(linkifyElement);
 
-  // Watch for updates
+  // Watch for updates without clearing parent container
   const observer = new MutationObserver(mutations => {
     mutations.forEach(m => {
       m.addedNodes.forEach(node => {
