@@ -157,15 +157,16 @@
   <!-- Linkify URLs -->
 <script>
 function linkifyTextNode(node) {
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
   if (node.nodeType !== Node.TEXT_NODE) return;
 
+  const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.]*)*)/g;
   const text = node.nodeValue;
   if (urlRegex.test(text)) {
     const span = document.createElement('span');
-    span.innerHTML = text.replace(urlRegex, url => 
-      `<a href="${url}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`
-    );
+    span.innerHTML = text.replace(urlRegex, url => {
+      let href = url.startsWith('http') ? url : 'https://' + url;
+      return `<a href="${href}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`;
+    });
     node.replaceWith(span);
   }
 }
@@ -173,7 +174,7 @@ function linkifyTextNode(node) {
 function linkifyElement(el) {
   if (!el) return;
   el.querySelectorAll('*').forEach(child => linkifyTextNode(child));
-  linkifyTextNode(el); // also process the root node if it's text
+  linkifyTextNode(el);
 }
 
 function setupLinkify() {
@@ -196,7 +197,7 @@ function setupLinkify() {
   observer.observe(listContainer, { childList: true, subtree: true });
 }
 
-// Wait until the widget is loaded (ORB script initializes asynchronously)
+// Wait until the widget is loaded
 const checkWidgetReady = setInterval(() => {
   if (document.querySelector('.orbIL')) {
     clearInterval(checkWidgetReady);
