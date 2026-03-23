@@ -63,6 +63,11 @@
     footer a:hover {
       text-decoration: underline;
     }
+
+    /* Hide OnlineRadioBox logo button if injected */
+    .orbLh {
+      display: none !important;
+    }
   </style>
 </head>
 
@@ -76,92 +81,54 @@
     <div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
 
       <style>
-        /* Base cleanup */
         .orbL {
-          position: relative;
-          box-sizing: border-box;
-          overflow: hidden;
           border: none !important;
           background: transparent !important;
-          box-shadow: none !important;
         }
 
         .orbLt {
-          display: block;
-          padding-left: 10px !important;
-          line-height: 44px !important;
-          min-height: 44px;
-          text-decoration: none !important;
-          background: transparent !important; /* remove red bar */
-        }
-
-        .orbLti {
-          float: left !important;
-          margin: 10px 10px 10px 0 !important;
-          height: 24px !important;
-          width: 44px !important;
+          background: transparent !important;
         }
 
         .orbLtn {
-          display: block;
-          margin-right: 54px !important;
-          font-size: 14px !important;
-          font-weight: bold;
           color: #222 !important;
         }
 
         .orbIL {
-          overflow-y: auto;
-          margin: 0 !important;
-          padding: 0 !important;
-          list-style: none !important;
           height: 200px;
           background: transparent !important;
+          overflow-y: auto;
         }
 
         .orbILi {
           padding: 6px 10px !important;
-          list-style: none !important;
         }
 
-        /* FIX: wrapping instead of truncation */
+        /* Allow wrapping */
         .orbILi > a,
         .orbILi > span {
-          display: block !important;
-          text-decoration: none !important;
-          font-size: 14px !important;
           white-space: normal !important;
           overflow: visible !important;
           text-overflow: unset !important;
           line-height: 1.5 !important;
           color: #222 !important;
+          text-decoration: none !important;
         }
 
         .orbILi > a > time,
         .orbILi > span > time {
-          display: inline-block;
           width: 3em;
+          display: inline-block;
           font-size: 12px !important;
-          vertical-align: top;
-          margin-right: 6px;
           color: #888 !important;
+          margin-right: 6px;
+          vertical-align: top;
         }
 
-        /* subtle separators */
         .orbILi + li {
           border-top: 1px solid rgba(0,0,0,0.08) !important;
         }
-
-        /* compact tweak */
-        .cmpct .orbILi > a,
-        .cmpct .orbILi > span {
-          font-size: 13px !important;
-        }
       </style>
-
-      <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
-        <img src="//ecdn.onlineradiobox.com/img/wl.svg" alt="">
-      </a>
 
       <a class="orbLt" href="https://onlineradiobox.com/us/bhagavatamreader/" target="_blank">
         <img class="orbLti" src="//cdn.onlineradiobox.com/img/logo/0/119920.png" alt="">
@@ -188,6 +155,24 @@
     <a href="https://bhaktisf.com" target="_blank">bhaktisf.com</a> |
     <a href="https://krishna.com" target="_blank">krishna.com</a>
   </footer>
+
+  <!-- Linkify URLs in track titles -->
+  <script>
+    function linkifyText(element) {
+      const urlPattern = /(https?:\/\/[^\s]+)/g;
+      element.innerHTML = element.innerHTML.replace(urlPattern, function(url) {
+        return '<a href="' + url + '" target="_blank" style="color:#0066cc;text-decoration:underline;">' + url + '</a>';
+      });
+    }
+
+    function applyLinkify() {
+      const items = document.querySelectorAll('.orbILi > a, .orbILi > span');
+      items.forEach(el => linkifyText(el));
+    }
+
+    setTimeout(applyLinkify, 1500);
+    setInterval(applyLinkify, 5000);
+  </script>
 
 </body>
 </html>
