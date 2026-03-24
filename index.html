@@ -179,44 +179,19 @@
 
 <script>
 const button = document.getElementById('playButton');
-
-// Use your Cloudflare Worker HTTPS URL (proxies the HTTP Icecast stream)
-const streamUrl = "http://73.162.196.183:8000/stream";
+const streamUrl = "http://73.162.196.183:8000/stream"; // your HTTP stream
 
 // Detect iOS devices
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
 
-// Try to open the stream in Tune Hunter or Broadcasts (iOS apps)
-function openInRadioApp(url) {
-  const apps = [
-    "tunehunter://play?url=" + encodeURIComponent(url),
-    "broadcasts://play?url=" + encodeURIComponent(url)
-  ];
-
-  let opened = false;
-  for (const scheme of apps) {
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = scheme;
-    document.body.appendChild(iframe);
-    setTimeout(() => document.body.removeChild(iframe), 1000);
-    opened = true;
-  }
-  return opened;
-}
-
 button.addEventListener('click', () => {
   if (isIOS()) {
-    // Try to open in apps
-    const success = openInRadioApp(streamUrl);
-    if (!success) {
-      // fallback: open in Safari
-      window.open(streamUrl, "_blank");
-    }
+    // iOS: open the stream in a new tab (Safari)
+    window.open(streamUrl, "_blank");
   } else {
-    // Desktop / other devices: open small popup window
+    // Desktop / other: open a small popup
     const width = 400;
     const height = 100;
     const left = (screen.width - width) / 2;
