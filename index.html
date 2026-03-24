@@ -167,31 +167,67 @@
 
   </div>
 
-  <!-- Audio Player -->
+<!-- Audio Player (Popup + iOS app) -->
 <div style="margin-top: 20px; text-align:center; z-index:1;">
-  <audio id="radioPlayer" controls preload="none" style="width:100%; max-width:400px;">
-    <source src="https://icecast-https-worker.mantraloungesf.workers.dev" type="audio/aac">
-    Your browser does not support the audio element.
-  </audio>
-  <br>
-  <button id="playButton" style="margin-top:10px; padding:10px 20px; font-size:16px; cursor:pointer;">
-    ▶ Play Bhakti Radio
+  <button id="playButton" style="margin-top:10px; padding:12px 24px; font-size:16px; cursor:pointer;">
+    ▶ Listen to Bhakti Radio
   </button>
+  <p style="margin-top:8px; font-size:14px; color:#555;">
+    On iPhone? Tap to open in <strong>Tune Hunter</strong> or <strong>Broadcasts</strong>.
+  </p>
 </div>
 
 <script>
-  const player = document.getElementById('radioPlayer');
-  const button = document.getElementById('playButton');
+const button = document.getElementById('playButton');
 
-  button.addEventListener('click', () => {
-    if (player.paused) {
-      player.play();
-      button.textContent = '⏸ Pause Bhakti Radio';
-    } else {
-      player.pause();
-      button.textContent = '▶ Play Bhakti Radio';
+// Use your Cloudflare Worker HTTPS URL (proxies the HTTP Icecast stream)
+const streamUrl = "https://icecast-https-worker.mantraloungesf.workers.dev";
+
+// Detect iOS devices
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+// Try to open the stream in Tune Hunter or Broadcasts (iOS apps)
+function openInRadioApp(url) {
+  const apps = [
+    "tunehunter://play?url=" + encodeURIComponent(url),
+    "broadcasts://play?url=" + encodeURIComponent(url)
+  ];
+
+  let opened = false;
+  for (const scheme of apps) {
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = scheme;
+    document.body.appendChild(iframe);
+    setTimeout(() => document.body.removeChild(iframe), 1000);
+    opened = true;
+  }
+  return opened;
+}
+
+button.addEventListener('click', () => {
+  if (isIOS()) {
+    // Try to open in apps
+    const success = openInRadioApp(streamUrl);
+    if (!success) {
+      // fallback: open in Safari
+      window.open(streamUrl, "_blank");
     }
-  });
+  } else {
+    // Desktop / other devices: open small popup window
+    const width = 400;
+    const height = 100;
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+    window.open(
+      streamUrl,
+      "BhaktiRadioPopup",
+      `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`
+    );
+  }
+});
 </script>
 
   <footer>
