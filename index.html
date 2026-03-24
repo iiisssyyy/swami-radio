@@ -201,21 +201,25 @@ async function getPublicIP(timeout = 2000) {
   }
 }
 
-button.addEventListener('click', async () => {
-  // Optimistically assume local network until fetch completes
-  let streamToUse = localStream;
+button.addEventListener('click', () => {
+  // Open a new tab immediately (satisfies browser user-gesture requirement)
+  const newTab = window.open("", "_blank");
 
-  try {
-    const ip = await getPublicIP();
-    if (ip !== homePublicIP && ip) {
-      streamToUse = publicStream;
+  // Then do async logic and redirect the tab
+  getPublicIP().then(ip => {
+    let streamToUse = publicStream;
+
+    // If on home network or IP fetch fails → use local stream
+    if (ip === homePublicIP || !ip) {
+      streamToUse = localStream;
     }
-  } catch {
-    // fallback to local stream if fetch fails
-  }
 
-  // Open final stream directly (tab will never show about:blank)
-  window.open(streamToUse, "_blank");
+    // Redirect the already-opened tab
+    newTab.location.href = streamToUse;
+  }).catch(() => {
+    // fallback if fetch fails
+    newTab.location.href = localStream;
+  });
 });
 </script>
   
