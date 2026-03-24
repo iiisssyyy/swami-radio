@@ -244,5 +244,16 @@ const checkWidgetReady = setInterval(() => {
 }, 500);
 </script>
 
+<script>
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    // Tab became visible again — reinitialize the widget
+    if (typeof orbpl_w !== "undefined" && orbpl_w.init) {
+      orbpl_w.init("orb_pl_a5ed1a5e0769a99");
+    }
+  }
+});
+</script>
+  
 </body>
 </html>
