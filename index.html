@@ -184,7 +184,7 @@ function linkifyElement(el) {
     false
   );
 
-  const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#%]*)*)/g;
+const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#%]*)*)/g;
   
   let node;
   while ((node = walker.nextNode())) {
@@ -193,7 +193,6 @@ function linkifyElement(el) {
     if (urlRegex.test(text)) {
       const span = document.createElement('span');
 
-      // ✅ Fix #1: Render directly, don't clear parent
       span.innerHTML = text.replace(urlRegex, url => {
         let href = url.startsWith('http') ? url : 'https://' + url;
 
@@ -206,7 +205,6 @@ function linkifyElement(el) {
         return `<a href="${href}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`;
       });
 
-      // ✅ Only replace this text node, don't touch siblings
       node.parentNode.replaceChild(span, node);
     }
   }
@@ -220,7 +218,7 @@ function setupLinkify() {
   listContainer.querySelectorAll('.orbILi > span, .orbILi > a')
     .forEach(linkifyElement);
 
-  // Watch for updates without clearing parent container
+  // Watch for updates
   const observer = new MutationObserver(mutations => {
     mutations.forEach(m => {
       m.addedNodes.forEach(node => {
@@ -244,16 +242,5 @@ const checkWidgetReady = setInterval(() => {
 }, 500);
 </script>
 
-<script>
-document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) {
-    // Tab became visible again — reinitialize the widget
-    if (typeof orbpl_w !== "undefined" && orbpl_w.init) {
-      orbpl_w.init("orb_pl_a5ed1a5e0769a99");
-    }
-  }
-});
-</script>
-  
 </body>
 </html>
