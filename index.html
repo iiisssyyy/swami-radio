@@ -180,35 +180,39 @@
 <script>
 const button = document.getElementById('playButton');
 
-// Public stream URL (worker / public IP)
-const localStream = "http://73.162.196.183:8000/stream";
+// Public stream URL (your public IP)
+const publicStream = "http://73.162.196.183:8000/stream";
 // Local fallback URL (LAN)
-const publicStream = "http://10.0.0.156:8000/stream"; // replace with your local IP
+const localStream = "http://10.0.0.156:8000/stream"; // replace with your local IP
 
 // Detect iOS devices
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
 
-// Helper: fetch with timeout
-async function checkStream(url, timeout = 3000) {
+// Check your current public IP
+async function getPublicIP(timeout = 3000) {
   try {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
-    const res = await fetch(url, { method: "HEAD", signal: controller.signal });
+    const res = await fetch("https://api.ipify.org?format=json", { signal: controller.signal });
     clearTimeout(id);
-    return res.ok;
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.ip;
   } catch (err) {
-    return false;
+    return null;
   }
 }
 
 button.addEventListener('click', async () => {
   let streamToUse = publicStream;
 
-  const ok = await checkStream(publicStream, 3000);
-  if (!ok) {
-    // fallback if public stream fails
+  const publicIP = await getPublicIP(2000); // 2 sec timeout
+  const homePublicIP = "73.162.196.183"; // your home public IP
+
+  if (publicIP === homePublicIP || !publicIP) {
+    // If on home network or IP check fails → use local stream
     streamToUse = localStream;
   }
 
