@@ -179,25 +179,49 @@
 
 <script>
 const button = document.getElementById('playButton');
-const streamUrl = "http://73.162.196.183:8000/stream"; // your HTTP stream
+
+// Public stream URL (worker / public IP)
+const publicStream = "http://73.162.196.183:8000/stream";
+// Local fallback URL (LAN)
+const localStream = "http://192.168.1.50:8000/stream"; // replace with your local IP
 
 // Detect iOS devices
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
 
-button.addEventListener('click', () => {
+// Helper: fetch with timeout
+async function checkStream(url, timeout = 3000) {
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const res = await fetch(url, { method: "HEAD", signal: controller.signal });
+    clearTimeout(id);
+    return res.ok;
+  } catch (err) {
+    return false;
+  }
+}
+
+button.addEventListener('click', async () => {
+  let streamToUse = publicStream;
+
+  const ok = await checkStream(publicStream, 3000);
+  if (!ok) {
+    // fallback if public stream fails
+    streamToUse = localStream;
+  }
+
+  // Open the stream
   if (isIOS()) {
-    // iOS: open the stream in a new tab (Safari)
-    window.open(streamUrl, "_blank");
+    window.open(streamToUse, "_blank");
   } else {
-    // Desktop / other: open a small popup
     const width = 400;
     const height = 100;
     const left = (screen.width - width) / 2;
     const top = (screen.height - height) / 2;
     window.open(
-      streamUrl,
+      streamToUse,
       "BhaktiRadioPopup",
       `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`
     );
