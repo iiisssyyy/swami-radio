@@ -177,17 +177,16 @@
 <script>
 const button = document.getElementById('playButton');
 
-// Your streams
 const publicStream = "http://73.162.196.183:8000/stream";
-const localStream = "http://10.0.0.156:8000/stream"; // replace with your LAN IP
-const homePublicIP = "73.162.196.183"; // your home public IP
+const localStream = "http://10.0.0.156:8000/stream"; 
+const homePublicIP = "73.162.196.183";
 
 // Detect iOS devices
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
 
-// Get public IP with timeout
+// Get public IP
 async function getPublicIP(timeout = 2000) {
   try {
     const controller = new AbortController();
@@ -202,20 +201,21 @@ async function getPublicIP(timeout = 2000) {
   }
 }
 
-button.addEventListener('click', () => {
-  // Open a blank tab immediately (counts as user gesture)
-  const newTab = window.open("about:blank", "_blank");
+button.addEventListener('click', async () => {
+  // Optimistically assume local network until fetch completes
+  let streamToUse = localStream;
 
-  // Async: check public IP and redirect to the correct stream
-  getPublicIP().then(ip => {
-    let streamToUse = publicStream;
-    if (ip === homePublicIP || !ip) {
-      streamToUse = localStream;
+  try {
+    const ip = await getPublicIP();
+    if (ip !== homePublicIP && ip) {
+      streamToUse = publicStream;
     }
+  } catch {
+    // fallback to local stream if fetch fails
+  }
 
-    // Redirect the already-opened tab
-    newTab.location.href = streamToUse;
-  });
+  // Open final stream directly (tab will never show about:blank)
+  window.open(streamToUse, "_blank");
 });
 </script>
   
