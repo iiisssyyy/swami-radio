@@ -177,6 +177,52 @@
 <script>
 const button = document.getElementById('playButton');
 
+// Your streams
+const publicStream = "http://73.162.196.183:8000/stream";
+const localStream = "http://10.0.0.156:8000/stream"; // replace with your LAN IP
+const homePublicIP = "73.162.196.183"; // your home public IP
+
+// Detect iOS devices
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+// Get public IP with timeout
+async function getPublicIP(timeout = 2000) {
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const res = await fetch("https://api.ipify.org?format=json", { signal: controller.signal });
+    clearTimeout(id);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.ip;
+  } catch {
+    return null;
+  }
+}
+
+button.addEventListener('click', () => {
+  // Open a blank tab immediately (counts as user gesture)
+  const newTab = window.open("about:blank", "_blank");
+
+  // Async: check public IP and redirect to the correct stream
+  getPublicIP().then(ip => {
+    let streamToUse = publicStream;
+    if (ip === homePublicIP || !ip) {
+      streamToUse = localStream;
+    }
+
+    // Redirect the already-opened tab
+    newTab.location.href = streamToUse;
+  });
+});
+</script>
+  
+  <!--
+<script>
+const button = document.getElementById('playButton');
+
 // Public + local streams
 const publicStream = "http://73.162.196.183:8000/stream";
 const localStream = "http://10.0.0.156:8000/stream"; // your LAN IP
@@ -234,7 +280,7 @@ button.addEventListener('click', () => {
     });
   }
 });
-</script>
+</script>-->
   
 <!--  <script>
 const button = document.getElementById('playButton');
