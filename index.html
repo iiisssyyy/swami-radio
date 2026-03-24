@@ -186,7 +186,7 @@ function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
 
-// Get public IP
+// Get public IP with timeout
 async function getPublicIP(timeout = 2000) {
   try {
     const controller = new AbortController();
@@ -201,25 +201,17 @@ async function getPublicIP(timeout = 2000) {
   }
 }
 
-button.addEventListener('click', () => {
-  // Open a new tab immediately (satisfies browser user-gesture requirement)
-  const newTab = window.open("", "_blank");
+button.addEventListener('click', async () => {
+  // Determine which stream to use BEFORE opening the tab
+  let streamToUse = publicStream;
 
-  // Then do async logic and redirect the tab
-  getPublicIP().then(ip => {
-    let streamToUse = publicStream;
+  const ip = await getPublicIP();
+  if (ip === homePublicIP || !ip) {
+    streamToUse = localStream;
+  }
 
-    // If on home network or IP fetch fails → use local stream
-    if (ip === homePublicIP || !ip) {
-      streamToUse = localStream;
-    }
-
-    // Redirect the already-opened tab
-    newTab.location.href = streamToUse;
-  }).catch(() => {
-    // fallback if fetch fails
-    newTab.location.href = localStream;
-  });
+  // Now open the new tab synchronously with the final URL
+  window.open(streamToUse, "_blank");
 });
 </script>
   
