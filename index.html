@@ -1,11 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bhakti Radio Stream</title>
 
-  
   <style>
     body {
       margin: 0;
@@ -18,7 +18,6 @@
       align-items: center;
     }
 
-    /* Faint background logo */
     body::before {
       content: "";
       position: fixed;
@@ -65,51 +64,26 @@
       text-decoration: underline;
     }
 
-    /* Hide ORB logo button */
-    .orbLh {
-      display: none !important;
-    }
+    .orbLh { display: none !important; }
+    .orbL { border: none !important; background: transparent !important; }
+    .orbLt, .orbIL, .orbILs { background: transparent !important; }
+    .orbLtn { color: #222 !important; }
 
-    /* Remove red border/background ONLY */
-    .orbL {
-      border: none !important;
-      background: transparent !important;
-    }
-
-    .orbLt {
-      background: transparent !important;
-    }
-
-    .orbLtn {
-      color: #222 !important;
-    }
-
-    .orbIL,
-    .orbILs {
-      background: transparent !important;
-    }
-
-    /* ✅ ONLY fix truncation (don’t touch layout!) */
     .orbILi > a,
     .orbILi > span {
       white-space: normal !important;
       text-overflow: unset !important;
-    }
-
-        /* Tighten line spacing */
-    .orbILi > a,
-    .orbILi > span {
-      line-height: 8px !important;
+      line-height: 1.2 !important;
       padding: 4px 0 !important;
     }
 
-    /* Taller widget on mobile */
     @media (max-width: 768px) {
       .orbIL {
         height: 40vh !important;
       }
     }
   </style>
+
 </head>
 
 <body>
@@ -118,76 +92,66 @@
 
   <div class="widget-container">
 
-    <!--OnlineRadioBox Playlist widget-->
-    <div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
+```
+<div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
 
-      <!-- KEEP original widget styles intact -->
-      <style>
-        .orbL{position:relative;box-sizing:border-box;overflow:hidden;font-weight:normal;border:1px solid;text-align:left}
-        .orbL br,.orbL>br{display:none!important;}
-        .orbL p,.orbL>p{margin:0!important;padding:0!important;line-height:normal!important;font-size:inherit!important}
-        .orbLh{display:block;position:absolute;z-index:100;top:22px;right:10px;margin-top:-12px;width:21px;text-decoration:none!important;cursor:pointer}
-        .orbLh>img{height:24px!important}
-        .orbLt{display:block;box-sizing:border-box;overflow:hidden;padding-left:10px!important;line-height:44px!important;min-height:44px;text-decoration:none!important}
-        .orbLti{float:left!important;margin:10px 10px 10px 0!important;height:24px!important;width:44px!important}
-        .orbLtn{display:block;margin-right:54px!important;font-size:14px!important;font-weight:bold;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
-        .orbIL{position:relative;overflow:auto;margin:0!important;padding:0!important;list-style:none!important;height:172px}
-        .orbILi{padding:0 10px!important;list-style:none!important}
-        .orbILi>a,.orbILi>span{display:block!important;line-height:32px!important;font-size:14px!important;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
-        .orbILi>a>time,.orbILi>span>time{display:inline-block;font-size:12px!important;width:3em}
-        .orbILi+li{border-style:solid!important;border-width:1px 0 0!important}
-        .orbILi > span > span {
-  display: inline-block;
-  line-height: 1.25 !important;
-}
-      </style>
+  <style>
+    .orbL{position:relative;box-sizing:border-box;overflow:hidden;font-weight:normal;border:1px solid;text-align:left}
+    .orbL br,.orbL>br{display:none!important;}
+    .orbL p,.orbL>p{margin:0!important;padding:0!important;line-height:normal!important;font-size:inherit!important}
+    .orbLh{display:block;position:absolute;z-index:100;top:22px;right:10px;margin-top:-12px;width:21px;text-decoration:none!important;cursor:pointer}
+    .orbLh>img{height:24px!important}
+    .orbLt{display:block;box-sizing:border-box;overflow:hidden;padding-left:10px!important;line-height:44px!important;min-height:44px;text-decoration:none!important}
+    .orbLti{float:left!important;margin:10px 10px 10px 0!important;height:24px!important;width:44px!important}
+    .orbLtn{display:block;margin-right:54px!important;font-size:14px!important;font-weight:bold;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+    .orbIL{position:relative;overflow:auto;margin:0!important;padding:0!important;list-style:none!important;height:172px}
+    .orbILi{padding:0 10px!important;list-style:none!important}
+    .orbILi>a,.orbILi>span{display:block!important;line-height:32px!important;font-size:14px!important;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+    .orbILi>a>time,.orbILi>span>time{display:inline-block;font-size:12px!important;width:3em}
+    .orbILi+li{border-style:solid!important;border-width:1px 0 0!important}
+  </style>
 
-      <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
-        <img src="//ecdn.onlineradiobox.com/img/wl.svg" alt="">
-      </a>
+  <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
+    <img src="//ecdn.onlineradiobox.com/img/wl.svg" alt="">
+  </a>
 
-      <a class="orbLt" href="https://onlineradiobox.com/us/bhagavatamreader/" target="_blank">
-        <img class="orbLti" src="//cdn.onlineradiobox.com/img/logo/0/119920.png" alt="">
-        <span class="orbLtn">Bhagavatam Reader</span>
-      </a>
+  <a class="orbLt" href="https://onlineradiobox.com/us/bhagavatamreader/" target="_blank">
+    <img class="orbLti" src="//cdn.onlineradiobox.com/img/logo/0/119920.png" alt="">
+    <span class="orbLtn">Bhagavatam Reader</span>
+  </a>
 
-      <script>
-        var orbpl_w = orbpl_w || { lang: "en-us" };
-        orbpl_w.cmd = orbpl_w.cmd || [];
-        orbpl_w.cmd.push(function() {
-          orbpl_w.init("orb_pl_a5ed1a5e0769a99");
-        });
+  <script>
+    var orbpl_w = orbpl_w || { lang: "en-us" };
+    orbpl_w.cmd = orbpl_w.cmd || [];
+    orbpl_w.cmd.push(function() {
+      orbpl_w.init("orb_pl_a5ed1a5e0769a99");
+    });
 
-        var s = document.createElement('script');
-        s.src = "//ecdn.onlineradiobox.com/js/plwidget.min.a1649ec0.js";
-        document.body.appendChild(s);
-      </script>
-    </div>
-    <!--OnlineRadioBox Playlist widget-->
+    var s = document.createElement('script');
+    s.src = "//ecdn.onlineradiobox.com/js/plwidget.min.a1649ec0.js";
+    document.body.appendChild(s);
+  </script>
+</div>
+```
 
   </div>
 
-<!-- Audio Player (Popup + iOS app) -->
-<div style="margin-top: 20px; text-align:center; z-index:1;">
-  <button id="playButton" style="margin-top:10px; padding:12px 24px; font-size:16px; cursor:pointer;">
-    ▶ Listen to Bhakti Radio
-  </button>
-</div>
-  
+  <div style="margin-top: 20px; text-align:center; z-index:1;">
+    <button id="playButton" style="margin-top:10px; padding:12px 24px; font-size:16px; cursor:pointer;">
+      ▶ Listen to Bhakti Radio
+    </button>
+  </div>
+
 <script>
 const button = document.getElementById('playButton');
-
-// Public + local streams
 const publicStream = "http://73.162.196.183:8000/stream";
-const localStream = "http://10.0.0.156:8000/stream"; // your LAN IP
+const localStream = "http://10.0.0.156:8000/stream";
 const homePublicIP = "73.162.196.183";
 
-// Detect iOS devices
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
 
-// Get public IP with timeout
 async function getPublicIP(timeout = 2000) {
   try {
     const controller = new AbortController();
@@ -203,122 +167,63 @@ async function getPublicIP(timeout = 2000) {
 }
 
 button.addEventListener('click', () => {
-
   if (isIOS()) {
-    // ✅ iOS: open blank tab immediately (user gesture)
     const newTab = window.open("about:blank", "_blank");
-
-    // Async logic: determine which stream to use
     getPublicIP().then(ip => {
-      let streamToUse = publicStream;
-
-      if (ip === homePublicIP || !ip) {
-        streamToUse = localStream;
-      }
-
-      // Redirect the already-opened tab
+      let streamToUse = (ip === homePublicIP || !ip) ? localStream : publicStream;
       newTab.location.href = streamToUse;
     });
-
   } else {
-    // Desktop / other: open new tab instead of popup
     getPublicIP().then(ip => {
-      let streamToUse = publicStream;
-
-      if (ip === homePublicIP || !ip) {
-        streamToUse = localStream;
-      }
-
-      // Open stream in new tab
+      let streamToUse = (ip === homePublicIP || !ip) ? localStream : publicStream;
       window.open(streamToUse, "_blank");
     });
   }
 });
 </script>
 
+<footer>
+  <a href="https://bhaktisf.com" target="_blank">bhaktisf.com</a> |
+  <a href="https://krishna.com" target="_blank">krishna.com</a>
+</footer>
 
-  <footer>
-    <a href="https://bhaktisf.com" target="_blank">bhaktisf.com</a> |
-    <a href="https://krishna.com" target="_blank">krishna.com</a>
-  </footer>
-
-  <!-- Linkify URLs -->
 <script>
 function linkifyElement(el) {
-  if (!el) return;
+  if (!el || el.dataset.linkified) return;
+  el.dataset.linkified = "true";
 
-  const walker = document.createTreeWalker(
-    el,
-    NodeFilter.SHOW_TEXT,
-    null,
-    false
-  );
+  const allowedDomains = ["y2u.be/", "clck.ru/"];
+  const text = el.textContent;
 
-  const allowedDomains = ["y2u.be/", "clck.ru/"]; // Only these will be linked
+  const urlRegex = /(https?:\/\/[^\s]+|[^\s]+\.[^\s]+)/g;
 
-  let node;
-  while ((node = walker.nextNode())) {
-    const text = node.nodeValue;
+  if (!urlRegex.test(text)) return;
 
-    // Build a regex to match URLs (simple)
-    const urlRegex = /(https?:\/\/[^\s]+|[^\s]+\/[^\s]+)/g;
+  const span = document.createElement('span');
 
-    if (urlRegex.test(text)) {
-      const span = document.createElement('span');
+  span.innerHTML = text.replace(urlRegex, url => {
+    const matchedDomain = allowedDomains.find(d => url.includes(d));
+    if (!matchedDomain) return url;
 
-      span.innerHTML = text.replace(urlRegex, url => {
-        // Check if the URL starts with allowed domains
-        const matchedDomain = allowedDomains.find(d => url.startsWith(d) || url.includes(d));
-        if (!matchedDomain) return url; // leave as plain text
+    let href = url.startsWith('http') ? url : 'https://' + url;
 
-        let href = url.startsWith('http') ? url : 'https://' + url;
-
-        // Special handling for y2u.be → YouTube
-        if (url.startsWith('y2u.be/')) {
-          const id = url.split('/')[1].replace(/[^a-zA-Z0-9_-]/g, '');
-          href = `https://youtu.be/${id}`;
-        }
-
-        return `<a href="${href}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`;
-      });
-
-      node.parentNode.replaceChild(span, node);
+    if (url.startsWith('y2u.be/')) {
+      const id = url.split('/')[1].replace(/[^a-zA-Z0-9_-]/g, '');
+      href = `https://youtu.be/${id}`;
     }
-  }
-}
 
-function setupLinkify() {
-  const listContainer = document.querySelector('.orbIL');
-  if (!listContainer) return;
-
-  // Process existing items
-  listContainer.querySelectorAll('.orbILi > span, .orbILi > a')
-    .forEach(linkifyElement);
-
-  // Watch for updates
-  const observer = new MutationObserver(mutations => {
-    mutations.forEach(m => {
-      m.addedNodes.forEach(node => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          linkifyElement(node);
-        }
-      });
-    });
+    return `<a href="${href}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`;
   });
 
-  observer.observe(listContainer, { childList: true, subtree: true });
+  el.innerHTML = span.innerHTML;
 }
 
-// Wait for widget
-const checkWidgetReady = setInterval(() => {
-  const el = document.querySelector('.orbIL');
-  if (el && el.children.length > 0) {
-    clearInterval(checkWidgetReady);
-    setupLinkify();
-  }
-}, 500);
+// SAFE polling instead of MutationObserver
+setInterval(() => {
+  document.querySelectorAll('.orbILi > span:not([data-linkified]), .orbILi > a:not([data-linkified])')
+    .forEach(linkifyElement);
+}, 2000);
 </script>
-
 
 </body>
 </html>
