@@ -184,16 +184,23 @@ function linkifyElement(el) {
     false
   );
 
-const urlRegex = /((https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}([\/\?\&\=\-\w\.#%]*)*)/g;
-  
+  const allowedDomains = ["y2u.be/", "clck.ru/"]; // Only these will be linked
+
   let node;
   while ((node = walker.nextNode())) {
     const text = node.nodeValue;
+
+    // Build a regex to match URLs (simple)
+    const urlRegex = /(https?:\/\/[^\s]+|[^\s]+\/[^\s]+)/g;
 
     if (urlRegex.test(text)) {
       const span = document.createElement('span');
 
       span.innerHTML = text.replace(urlRegex, url => {
+        // Check if the URL starts with allowed domains
+        const matchedDomain = allowedDomains.find(d => url.startsWith(d) || url.includes(d));
+        if (!matchedDomain) return url; // leave as plain text
+
         let href = url.startsWith('http') ? url : 'https://' + url;
 
         // Special handling for y2u.be → YouTube
