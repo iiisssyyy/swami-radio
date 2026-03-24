@@ -174,6 +174,77 @@
   </button>
 </div>
 
+  <script>
+const button = document.getElementById('playButton');
+
+// Public + local streams
+const publicStream = "http://73.162.196.183:8000/stream";
+const localStream = "http://10.0.0.156:8000/stream"; // your LAN IP
+const homePublicIP = "73.162.196.183";
+
+// Detect iOS
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+// Get public IP
+async function getPublicIP(timeout = 2000) {
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const res = await fetch("https://api.ipify.org?format=json", { signal: controller.signal });
+    clearTimeout(id);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.ip;
+  } catch {
+    return null;
+  }
+}
+
+button.addEventListener('click', () => {
+
+  if (isIOS()) {
+    // ✅ CRITICAL: open tab immediately (user gesture)
+    const newTab = window.open("about:blank", "_blank");
+
+    // Then do async logic
+    getPublicIP().then(ip => {
+      let streamToUse = publicStream;
+
+      if (ip === homePublicIP || !ip) {
+        streamToUse = localStream;
+      }
+
+      // Redirect the already-opened tab
+      newTab.location.href = streamToUse;
+    });
+
+  } else {
+    // Desktop: keep your popup behavior (works fine async or sync)
+    getPublicIP().then(ip => {
+      let streamToUse = publicStream;
+
+      if (ip === homePublicIP || !ip) {
+        streamToUse = localStream;
+      }
+
+      const width = 400;
+      const height = 100;
+      const left = (screen.width - width) / 2;
+      const top = (screen.height - height) / 2;
+
+      window.open(
+        streamToUse,
+        "BhaktiRadioPopup",
+        `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`
+      );
+    });
+  }
+});
+</script>
+
+  <!--
 <script>
 const button = document.getElementById('playButton');
 const streamUrl = "http://73.162.196.183:8000/stream"; // your HTTP stream
@@ -200,7 +271,7 @@ button.addEventListener('click', () => {
     );
   }
 });
-</script>
+</script> -->
 
   <!--
 <script>
