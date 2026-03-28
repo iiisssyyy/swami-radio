@@ -92,47 +92,45 @@
 
   <div class="widget-container">
 
-```
-<div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
+    <div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
 
-  <style>
-    .orbL{position:relative;box-sizing:border-box;overflow:hidden;font-weight:normal;border:1px solid;text-align:left}
-    .orbL br,.orbL>br{display:none!important;}
-    .orbL p,.orbL>p{margin:0!important;padding:0!important;line-height:normal!important;font-size:inherit!important}
-    .orbLh{display:block;position:absolute;z-index:100;top:22px;right:10px;margin-top:-12px;width:21px;text-decoration:none!important;cursor:pointer}
-    .orbLh>img{height:24px!important}
-    .orbLt{display:block;box-sizing:border-box;overflow:hidden;padding-left:10px!important;line-height:44px!important;min-height:44px;text-decoration:none!important}
-    .orbLti{float:left!important;margin:10px 10px 10px 0!important;height:24px!important;width:44px!important}
-    .orbLtn{display:block;margin-right:54px!important;font-size:14px!important;font-weight:bold;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
-    .orbIL{position:relative;overflow:auto;margin:0!important;padding:0!important;list-style:none!important;height:172px}
-    .orbILi{padding:0 10px!important;list-style:none!important}
-    .orbILi>a,.orbILi>span{display:block!important;line-height:32px!important;font-size:14px!important;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
-    .orbILi>a>time,.orbILi>span>time{display:inline-block;font-size:12px!important;width:3em}
-    .orbILi+li{border-style:solid!important;border-width:1px 0 0!important}
-  </style>
+      <style>
+        .orbL{position:relative;box-sizing:border-box;overflow:hidden;font-weight:normal;border:1px solid;text-align:left}
+        .orbL br,.orbL>br{display:none!important;}
+        .orbL p,.orbL>p{margin:0!important;padding:0!important;line-height:normal!important;font-size:inherit!important}
+        .orbLh{display:block;position:absolute;z-index:100;top:22px;right:10px;margin-top:-12px;width:21px;text-decoration:none!important;cursor:pointer}
+        .orbLh>img{height:24px!important}
+        .orbLt{display:block;box-sizing:border-box;overflow:hidden;padding-left:10px!important;line-height:44px!important;min-height:44px;text-decoration:none!important}
+        .orbLti{float:left!important;margin:10px 10px 10px 0!important;height:24px!important;width:44px!important}
+        .orbLtn{display:block;margin-right:54px!important;font-size:14px!important;font-weight:bold;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+        .orbIL{position:relative;overflow:auto;margin:0!important;padding:0!important;list-style:none!important;height:172px}
+        .orbILi{padding:0 10px!important;list-style:none!important}
+        .orbILi>a,.orbILi>span{display:block!important;line-height:32px!important;font-size:14px!important;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+        .orbILi>a>time,.orbILi>span>time{display:inline-block;font-size:12px!important;width:3em}
+        .orbILi+li{border-style:solid!important;border-width:1px 0 0!important}
+      </style>
 
-  <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
-    <img src="//ecdn.onlineradiobox.com/img/wl.svg" alt="">
-  </a>
+      <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
+        <img src="//ecdn.onlineradiobox.com/img/wl.svg" alt="">
+      </a>
 
-  <a class="orbLt" href="https://onlineradiobox.com/us/bhagavatamreader/" target="_blank">
-    <img class="orbLti" src="//cdn.onlineradiobox.com/img/logo/0/119920.png" alt="">
-    <span class="orbLtn">Bhagavatam Reader</span>
-  </a>
+      <a class="orbLt" href="https://onlineradiobox.com/us/bhagavatamreader/" target="_blank">
+        <img class="orbLti" src="//cdn.onlineradiobox.com/img/logo/0/119920.png" alt="">
+        <span class="orbLtn">Bhagavatam Reader</span>
+      </a>
 
-  <script>
-    var orbpl_w = orbpl_w || { lang: "en-us" };
-    orbpl_w.cmd = orbpl_w.cmd || [];
-    orbpl_w.cmd.push(function() {
-      orbpl_w.init("orb_pl_a5ed1a5e0769a99");
-    });
+      <script>
+        var orbpl_w = orbpl_w || { lang: "en-us" };
+        orbpl_w.cmd = orbpl_w.cmd || [];
+        orbpl_w.cmd.push(function() {
+          orbpl_w.init("orb_pl_a5ed1a5e0769a99");
+        });
 
-    var s = document.createElement('script');
-    s.src = "//ecdn.onlineradiobox.com/js/plwidget.min.a1649ec0.js";
-    document.body.appendChild(s);
-  </script>
-</div>
-```
+        var s = document.createElement('script');
+        s.src = "//ecdn.onlineradiobox.com/js/plwidget.min.a1649ec0.js";
+        document.body.appendChild(s);
+      </script>
+    </div>
 
   </div>
 
@@ -192,20 +190,17 @@ function linkifyElement(el) {
   if (!el || el.dataset.linkified) return;
   el.dataset.linkified = "true";
 
-  const allowedDomains = ["y2u.be/", "clck.ru/"];
   const text = el.textContent;
 
-  const urlRegex = /(https?:\/\/[^\s]+|[^\s]+\.[^\s]+)/g;
+  // ONLY match clck.ru or y2u.be (no leading junk like ***)
+  const urlRegex = /\b(clck\.ru\/[^\s*]+|y2u\.be\/[^\s*]+)/g;
 
   if (!urlRegex.test(text)) return;
 
   const span = document.createElement('span');
 
   span.innerHTML = text.replace(urlRegex, url => {
-    const matchedDomain = allowedDomains.find(d => url.includes(d));
-    if (!matchedDomain) return url;
-
-    let href = url.startsWith('http') ? url : 'https://' + url;
+    let href = "https://" + url;
 
     if (url.startsWith('y2u.be/')) {
       const id = url.split('/')[1].replace(/[^a-zA-Z0-9_-]/g, '');
@@ -218,7 +213,7 @@ function linkifyElement(el) {
   el.innerHTML = span.innerHTML;
 }
 
-// SAFE polling instead of MutationObserver
+// polling
 setInterval(() => {
   document.querySelectorAll('.orbILi > span:not([data-linkified]), .orbILi > a:not([data-linkified])')
     .forEach(linkifyElement);
