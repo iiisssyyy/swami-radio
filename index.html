@@ -143,6 +143,64 @@
 
 <script>
 const button = document.getElementById('playButton');
+const publicStream = "http://73.162.196.183:8000/stream";
+const localStream = "http://10.0.0.156:8000/stream";
+const homePublicIP = "73.162.196.183";
+
+// Detect iOS
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+// Detect Chrome (excluding Edge/Opera)
+function isChrome() {
+  return /Chrome/.test(navigator.userAgent) && !/Edge|OPR/.test(navigator.userAgent);
+}
+
+// Get public IP
+async function getPublicIP(timeout = 2000) {
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const res = await fetch("https://api.ipify.org?format=json", { signal: controller.signal });
+    clearTimeout(id);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.ip;
+  } catch {
+    return null;
+  }
+}
+
+// Button click handler
+button.addEventListener('click', () => {
+  if (isIOS()) {
+    // iOS: open new tab, choose local/public stream
+    const newTab = window.open("about:blank", "_blank");
+    getPublicIP().then(ip => {
+      let streamToUse = (ip === homePublicIP || !ip) ? localStream : publicStream;
+      newTab.location.href = streamToUse;
+    });
+  } else if (isChrome()) {
+    // Chrome: open special Onlineradiobox popup
+    window.open(
+      "http://p.onlineradiobox.com/us/bhagavatamreader/player/?cs=us.bhagavatamreader",
+      "BhaktiRadioPopup",
+      "width=400,height=200,resizable=yes,scrollbars=no"
+    );
+  } else {
+    // Other browsers: open new tab, choose local/public stream
+    getPublicIP().then(ip => {
+      let streamToUse = (ip === homePublicIP || !ip) ? localStream : publicStream;
+      window.open(streamToUse, "_blank");
+    });
+  }
+});
+</script>
+  
+  <!--
+<script>
+const button = document.getElementById('playButton');
 
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -178,7 +236,7 @@ button.addEventListener('click', function (e) {
     win.focus();
   }
 });
-</script>
+</script>-->
   
   <!--
 <script>
