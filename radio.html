@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhakti Radio Player</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    audio {
+      width: 300px;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bhakti Radio</h1>
+  <audio id="radioPlayer" controls autoplay>
+    <source src="http://73.162.196.183:8000/stream" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const player = document.getElementById('radioPlayer');
+
+    // Attempt to autoplay
+    window.addEventListener('load', () => {
+      const playPromise = player.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.log("Autoplay blocked, user interaction required.", err);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
