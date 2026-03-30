@@ -147,6 +147,73 @@ const publicStream = "http://73.162.196.183:8000/stream";
 const localStream = "http://10.0.0.156:8000/stream";
 const homePublicIP = "73.162.196.183";
 
+let cachedIP = null;
+
+// Detect iOS (you already had this)
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+// Fetch IP EARLY (before user clicks)
+async function getPublicIP(timeout = 2000) {
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+
+    const res = await fetch("https://api.ipify.org?format=json", {
+      signal: controller.signal
+    });
+
+    clearTimeout(id);
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data.ip;
+  } catch {
+    return null;
+  }
+}
+
+// Start fetching immediately on page load
+getPublicIP().then(ip => {
+  cachedIP = ip;
+});
+
+// Button click (NO async here = Chrome-safe)
+button.addEventListener('click', () => {
+  let streamToUse;
+
+  if (cachedIP === homePublicIP || !cachedIP) {
+    streamToUse = localStream;
+  } else {
+    streamToUse = publicStream;
+  }
+
+  if (isIOS()) {
+    // iOS still prefers this pattern
+    const newTab = window.open("about:blank", "_blank");
+    if (newTab) {
+      newTab.location.href = streamToUse;
+    }
+  } else {
+    // Chrome + others
+    const newWin = window.open(streamToUse, "_blank");
+
+    if (!newWin) {
+      alert("Please allow popups for this site to play the stream.");
+    }
+  }
+});
+</script>
+  
+  <!--
+<script>
+const button = document.getElementById('playButton');
+const publicStream = "http://73.162.196.183:8000/stream";
+const localStream = "http://10.0.0.156:8000/stream";
+const homePublicIP = "73.162.196.183";
+
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 }
@@ -191,6 +258,7 @@ button.addEventListener('click', () => {
 
 });
 </script>
+  -->
   
   <!--
 <script>
