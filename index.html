@@ -173,6 +173,54 @@ async function getPublicIP(timeout = 2000) {
   }
 }
 
+// Pre-fetch IP on load
+getPublicIP().then(ip => {
+  cachedIP = ip;
+});
+
+button.addEventListener('click', () => {
+  let streamToUse = (cachedIP === homePublicIP || !cachedIP)
+    ? localStream
+    : publicStream;
+
+  // ✅ Navigate in SAME tab (Chrome-safe)
+  window.location.href = streamToUse;
+});
+</script>
+  
+  <!--
+<script>
+const button = document.getElementById('playButton');
+const publicStream = "http://73.162.196.183:8000/stream";
+const localStream = "http://10.0.0.156:8000/stream";
+const homePublicIP = "73.162.196.183";
+
+let cachedIP = null;
+
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+async function getPublicIP(timeout = 2000) {
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+
+    const res = await fetch("https://api.ipify.org?format=json", {
+      signal: controller.signal
+    });
+
+    clearTimeout(id);
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data.ip;
+  } catch {
+    return null;
+  }
+}
+
 // Preload IP
 getPublicIP().then(ip => {
   cachedIP = ip;
@@ -201,7 +249,7 @@ button.addEventListener('click', () => {
   document.body.removeChild(a);
 });
 </script>
-  
+  -->
   <!--
 <script>
 const button = document.getElementById('playButton');
