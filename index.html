@@ -152,6 +152,46 @@ function isChrome() {
   return /Chrome/.test(navigator.userAgent) && !/Edge|OPR/.test(navigator.userAgent);
 }
 
+button.addEventListener('click', function (e) {
+  // 🔑 MUST happen immediately, no async before this
+  const url = "http://p.onlineradiobox.com/us/bhagavatamreader/player/?cs=us.bhagavatamreader&played=0";
+
+  let win;
+
+  if (isIOS()) {
+    // iOS prefers new tab
+    win = window.open(url, "_blank");
+  } else if (isChrome()) {
+    // Chrome popup
+    win = window.open(
+      url,
+      "BhaktiRadioPopup",
+      "width=400,height=200,resizable=yes,scrollbars=no"
+    );
+  } else {
+    // fallback
+    win = window.open(url, "_blank");
+  }
+
+  // 🔧 Optional but helps in some browsers
+  if (win) {
+    win.focus();
+  }
+});
+</script>
+  
+  <!--
+<script>
+const button = document.getElementById('playButton');
+
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+function isChrome() {
+  return /Chrome/.test(navigator.userAgent) && !/Edge|OPR/.test(navigator.userAgent);
+}
+
 button.addEventListener('click', () => {
   if (isIOS()) {
     // iOS: open in new tab
@@ -168,7 +208,7 @@ button.addEventListener('click', () => {
     window.open("player.html", "_blank");
   }
 });
-</script>
+</script>-->
   
   <!--
 <script>
