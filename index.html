@@ -22,256 +22,6 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: url("91A98mHE9JL.svg") center/1320px no-repeat;
-      opacity: 0.5;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    h1 {
-      margin: 30px 0 20px;
-      font-weight: 600;
-      z-index: 1;
-    }
-
-    .widget-container {
-      width: 100%;
-      max-width: 900px;
-      padding: 0 20px;
-      z-index: 1;
-    }
-
-    @media (min-width: 768px) {
-      .widget-container {
-        max-width: 1000px;
-      }
-    }
-
-    footer {
-      margin-top: auto;
-      padding: 20px;
-      font-size: 14px;
-      z-index: 1;
-    }
-
-    footer a {
-      margin: 0 10px;
-      color: #444;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    .orbLh { display: none !important; }
-    .orbL { border: none !important; background: transparent !important; }
-    .orbLt, .orbIL, .orbILs { background: transparent !important; }
-    .orbLtn { color: #222 !important; }
-
-    .orbILi > a,
-    .orbILi > span {
-      white-space: normal !important;
-      text-overflow: unset !important;
-      line-height: 1.2 !important;
-      padding: 4px 0 !important;
-    }
-
-    @media (max-width: 768px) {
-      .orbIL {
-        height: 40vh !important;
-      }
-    }
-  </style>
-
-</head>
-
-<body>
-
-  <h1>Bhakti Radio Stream</h1>
-
-  <div class="widget-container">
-
-    <div class="orbL cmpct" id="orb_pl_a5ed1a5e0769a99">
-
-      <style>
-        .orbL{position:relative;box-sizing:border-box;overflow:hidden;font-weight:normal;border:1px solid;text-align:left}
-        .orbL br,.orbL>br{display:none!important;}
-        .orbL p,.orbL>p{margin:0!important;padding:0!important;line-height:normal!important;font-size:inherit!important}
-        .orbLh{display:block;position:absolute;z-index:100;top:22px;right:10px;margin-top:-12px;width:21px;text-decoration:none!important;cursor:pointer}
-        .orbLh>img{height:24px!important}
-        .orbLt{display:block;box-sizing:border-box;overflow:hidden;padding-left:10px!important;line-height:44px!important;min-height:44px;text-decoration:none!important}
-        .orbLti{float:left!important;margin:10px 10px 10px 0!important;height:24px!important;width:44px!important}
-        .orbLtn{display:block;margin-right:54px!important;font-size:14px!important;font-weight:bold;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
-        .orbIL{position:relative;overflow:auto;margin:0!important;padding:0!important;list-style:none!important;height:172px}
-        .orbILi{padding:0 10px!important;list-style:none!important}
-        .orbILi>a,.orbILi>span{display:block!important;line-height:32px!important;font-size:14px!important;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
-        .orbILi>a>time,.orbILi>span>time{display:inline-block;font-size:12px!important;width:3em}
-        .orbILi+li{border-style:solid!important;border-width:1px 0 0!important}
-      </style>
-
-      <a class="orbLh" href="https://onlineradiobox.com/us/" target="_blank">
-        <img src="//ecdn.onlineradiobox.com/img/wl.svg" alt="">
-      </a>
-
-      <a class="orbLt" href="https://onlineradiobox.com/us/bhagavatamreader/" target="_blank">
-        <img class="orbLti" src="//cdn.onlineradiobox.com/img/logo/0/119920.png" alt="">
-        <span class="orbLtn">Bhagavatam Reader</span>
-      </a>
-
-      <script>
-        var orbpl_w = orbpl_w || { lang: "en-us" };
-        orbpl_w.cmd = orbpl_w.cmd || [];
-        orbpl_w.cmd.push(function() {
-          orbpl_w.init("orb_pl_a5ed1a5e0769a99");
-        });
-
-        var s = document.createElement('script');
-        s.src = "//ecdn.onlineradiobox.com/js/plwidget.min.a1649ec0.js";
-        document.body.appendChild(s);
-      </script>
-    </div>
-
-  </div>
-
-  <div style="margin-top: 20px; text-align:center; z-index:1;">
-    <button id="playButton" style="margin-top:10px; padding:12px 24px; font-size:16px; cursor:pointer;">
-      ▶ Listen to Bhakti Radio
-    </button>
-  </div>
-
-<script>
-const button = document.getElementById('playButton');
-const publicStream = "http://73.162.196.183:8000/stream";
-const localStream = "http://10.0.0.156:8000/stream";
-const homePublicIP = "73.162.196.183";
-
-function isIOS() {
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-}
-
-function isChrome() {
-  const ua = navigator.userAgent;
-  return /Chrome/.test(ua) && /Google Inc/.test(navigator.vendor);
-}
-
-async function getPublicIP(timeout = 2000) {
-  try {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
-    const res = await fetch("https://api.ipify.org?format=json", { signal: controller.signal });
-    clearTimeout(id);
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.ip;
-  } catch {
-    return null;
-  }
-}
-
-button.addEventListener('click', () => {
-
-  // ✅ Chrome-only workaround
-  if (isChrome() && !isIOS()) {
-
-    getPublicIP().then(ip => {
-      let streamToUse = (ip === homePublicIP || !ip) ? localStream : publicStream;
-
-      // Use real anchor navigation (same tab)
-      const a = document.createElement("a");
-      a.href = streamToUse;
-      a.style.display = "none";
-
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    });
-
-    return;
-  }
-
-  // ✅ ORIGINAL behavior (unchanged)
-  if (isIOS()) {
-    const newTab = window.open("about:blank", "_blank");
-    getPublicIP().then(ip => {
-      let streamToUse = (ip === homePublicIP || !ip) ? localStream : publicStream;
-      newTab.location.href = streamToUse;
-    });
-  } else {
-    getPublicIP().then(ip => {
-      let streamToUse = (ip === homePublicIP || !ip) ? localStream : publicStream;
-      window.open(streamToUse, "_blank");
-    });
-  }
-});
-</script>
-  
-<footer>
-  <a href="https://bhaktisf.com" target="_blank">bhaktisf.com</a> |
-  <a href="https://krishna.com" target="_blank">krishna.com</a>
-</footer>
-
-<script>
-function linkifyElement(el) {
-  if (!el || el.dataset.linkified) return;
-  el.dataset.linkified = "true";
-
-  const text = el.textContent;
-  const urlRegex = /\b(clck\.ru\/[^\s*]+|y2u\.be\/[^\s*]+)/g;
-
-  if (!urlRegex.test(text)) return;
-
-  const span = document.createElement('span');
-
-  span.innerHTML = text.replace(urlRegex, url => {
-    let href = "https://" + url;
-
-    if (url.startsWith('y2u.be/')) {
-      const id = url.split('/')[1].replace(/[^a-zA-Z0-9_-]/g, '');
-      href = `https://youtu.be/${id}`;
-    }
-
-    return `<a href="${href}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`;
-  });
-
-  el.innerHTML = span.innerHTML;
-}
-
-setInterval(() => {
-  document.querySelectorAll('.orbILi > span:not([data-linkified]), .orbILi > a:not([data-linkified])')
-    .forEach(linkifyElement);
-}, 2000);
-</script>
-
-</body>
-</html>
-
-
-<!--
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bhakti Radio Stream</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      align-items: center;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
    //   background: url("https://bhaktisf.com/fav/favicon.svg") center/320px no-repeat;
       background: url("91A98mHE9JL.svg") center/1320px no-repeat;
       opacity: 0.5;
@@ -393,6 +143,36 @@ setInterval(() => {
 
 <script>
 const button = document.getElementById('playButton');
+
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+function isChrome() {
+  return /Chrome/.test(navigator.userAgent) && !/Edge|OPR/.test(navigator.userAgent);
+}
+
+button.addEventListener('click', () => {
+  if (isIOS()) {
+    // iOS: open in new tab
+    window.open("player.html", "_blank");
+  } else if (isChrome()) {
+    // Chrome: open in a popup window
+    window.open(
+      "player.html",
+      "BhaktiRadioPopup",
+      "width=400,height=200,resizable=yes,scrollbars=no"
+    );
+  } else {
+    // Firefox / Safari: open in a new tab
+    window.open("player.html", "_blank");
+  }
+});
+</script>
+  
+  <!--
+<script>
+const button = document.getElementById('playButton');
 const publicStream = "http://73.162.196.183:8000/stream";
 const localStream = "http://10.0.0.156:8000/stream";
 const homePublicIP = "73.162.196.183";
@@ -430,6 +210,7 @@ button.addEventListener('click', () => {
   }
 });
 </script>
+-->
   
 <footer>
   <a href="https://bhaktisf.com" target="_blank">bhaktisf.com</a> |
@@ -473,4 +254,3 @@ setInterval(() => {
 
 </body>
 </html>
--->
