@@ -318,30 +318,59 @@ button.addEventListener('click', () => {
 <script>
 function linkifyElement(el) {
   if (!el || el.dataset.linkified) return;
-  el.dataset.linkified = "true";
 
   const text = el.textContent;
+  const urlRegex = /\b(?:clck\.ru\/|y2u\.be\/)[^\s*<]+/g;
 
-  // ONLY match clck.ru or y2u.be (no leading junk like ***)
-  const urlRegex = /\b(clck\.ru\/[^\s*]+|y2u\.be\/[^\s*]+)/g;
+  const matches = [...text.matchAll(urlRegex)];
 
-  if (!urlRegex.test(text)) return;
+  if (!matches.length) return;
 
-  const span = document.createElement('span');
+  el.dataset.linkified = "true";
 
-  span.innerHTML = text.replace(urlRegex, url => {
+  const fragment = document.createDocumentFragment();
+  let lastIndex = 0;
+
+  for (const match of matches) {
+    const url = match[0];
+    const start = match.index;
+
+    // Text before URL
+    fragment.appendChild(
+      document.createTextNode(text.slice(lastIndex, start))
+    );
+
     let href = "https://" + url;
 
-    if (url.startsWith('y2u.be/')) {
-      const id = url.split('/')[1].replace(/[^a-zA-Z0-9_-]/g, '');
+    if (url.startsWith("y2u.be/")) {
+      const id = url
+        .slice("y2u.be/".length)
+        .replace(/[^a-zA-Z0-9_-]/g, "");
+
       href = `https://youtu.be/${id}`;
     }
 
-    return `<a href="${href}" target="_blank" style="color:#0066cc;text-decoration:underline;">${url}</a>`;
-  });
+    const a = document.createElement("a");
+    a.href = href;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.style.color = "#0066cc";
+    a.style.textDecoration = "underline";
+    a.textContent = url;
 
-  el.innerHTML = span.innerHTML;
+    fragment.appendChild(a);
+
+    lastIndex = start + url.length;
+  }
+
+  // Remaining text
+  fragment.appendChild(
+    document.createTextNode(text.slice(lastIndex))
+  );
+
+  el.replaceChildren(fragment);
 }
+
 
 // polling
 setInterval(() => {
